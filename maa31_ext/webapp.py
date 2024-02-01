@@ -11,10 +11,13 @@ from connect.eaas.core.decorators import (
     variables,
     web_app,
 )
+from logging import LoggerAdapter
+
 from connect.eaas.core.extension import WebApplicationBase
 from connect.eaas.core.inject.common import get_call_context
 from connect.eaas.core.inject.models import Context
 from connect.eaas.core.inject.synchronous import get_installation, get_installation_client
+from connect.eaas.core.inject.common import get_logger
 from fastapi import Depends
 
 from maa31_ext.schemas import Marketplace, Settings
@@ -35,21 +38,30 @@ from maa31_ext.schemas import Marketplace, Settings
 @web_app(router)
 class Maa31testWebApplication(WebApplicationBase):
 
+    @classmethod
+    def on_startup(cls, logger: LoggerAdapter, config: dict):
+        logger.info('Hi from on startup method')
+
+
     @router.get(
-        '/marketplaces',
-        summary='List all available marketplaces',
-        response_model=List[Marketplace],
+        '/test',
+        summary='test endpoint',
     )
-    def list_marketplaces(
+    def test_method(
         self,
         client: ConnectClient = Depends(get_installation_client),
-    ):
+        logger: LoggerAdapter = Depends(get_logger),
+    ):  
+        logger.info("Hi from get method")
+        return
+        '''
         return [
             Marketplace(**marketplace)
             for marketplace in client.marketplaces.all().values_list(
                 'id', 'name', 'description', 'icon',
             )
         ]
+        '''
 
     @router.get(
         '/settings',
