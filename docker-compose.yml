@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  maa31test_dev:
+    container_name: maa31test_dev
+    build:
+      context: .
+    working_dir: /extension
+    command: cextrun -d --no-rich-logging
+    volumes: 
+      - .:/extension
+    env_file:
+      - .maa31test_dev.env
+
+  maa31test_bash:
+    container_name: maa31test_bash
+    build:
+      context: .
+    working_dir: /extension
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/extension
+    env_file:
+      - .maa31test_dev.env
+
+  maa31test_test:
+    container_name: maa31test_test
+    build:
+      context: .
+    working_dir: /extension
+    command: extension-test
+    volumes:
+      - .:/extension
+    env_file:
+      - .maa31test_dev.env
