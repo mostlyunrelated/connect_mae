@@ -38,9 +38,9 @@ from maa31_ext.schemas import Marketplace, Settings
 @web_app(router)
 class Maa31testWebApplication(WebApplicationBase):
 
-    @classmethod
-    def on_startup(cls, logger: LoggerAdapter, config: dict):
-        logger.info('Hi from on startup method')
+    #@classmethod
+    #def on_startup(cls, logger: LoggerAdapter, config: dict):
+    #    logger.info('Hi from on startup method')
 
 
     @router.get(
